@@ -35,13 +35,18 @@ void main()
     
     assert(bcLen(chainOne)==0);
 
-    
 
-    tlistPrint(list);
-    printf("%d",bcLen(chainOne));
-    tlistPrint(list);
-    bcAppend(&chainOne, block);
+   // tlistPrint(block->transactions);
+    tlistPrint(chainOne.head->transactions);
     
+    printf("%d",bcLen(chainOne));
+    bcAppend(&chainOne, block);
+    Block_t* t = chainOne.head->next;
+    tlistPrint(t->transactions);
+    tlistPrint(t->prev->transactions);
+    tlistPrint(t->next->transactions);
+
+
     printf("%d",bcLen(chainOne));
     
     
