@@ -66,6 +66,7 @@ void main()
     }
     
     bcDelete(&chainOne); //deletes the blockchain
-    //NOTE: THIS DELETES THE "DUMMY" BLOCK ASWELL, YOU CANNOT ACCESS THE chainOne BLOCKCHAIN AFTER THIS HAS BEEN CALLED
+    assert(bcLen(chainOne) == 0);
+    //DISREGARD - > NOTE: THIS DELETES THE "DUMMY" BLOCK ASWELL, YOU CANNOT ACCESS THE chainOne BLOCKCHAIN AFTER THIS HAS BEEN CALLED
 }
 
