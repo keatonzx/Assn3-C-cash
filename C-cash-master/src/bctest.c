@@ -12,49 +12,59 @@
 
           // Default difficulty for hashing puzzles, increase to make mining harder
 
+void makeNewBlock(TransactionList list, BlockChain* chainOne)
+{
+    Block_t* block = blkCreate(list, 2, NULL_NONCE); //make block
+    bcAppend(chainOne, block);
+    Puzzle_t p = blkCreatePuzzle(*block, block->prev->hash); //make puzzle
+    block->proof_of_work = puzzleMine(p); // assing proof of work to block
+}
 
 
 void main()
 {
     printf("hello blockchain: \n");
     
-    BlockChain chainOne = bcNew();
+    BlockChain chainOne = bcNew(); //Creates a blockchain
     printf("%d",bcLen(chainOne));
 
     TransactionList list = tlistCreate();
-    
     tlistAppend(&list,"Keaton",420,"Carter");
-    tlistAppend(&list,"Bob",420000,"Bill");
-   // tlistAppend();
-    Block_t* block = blkCreate(list, 2, NULL_NONCE);
+    tlistAppend(&list,"Bob",2100,"Bill");
+    tlistAppend(&list,"Isabelle",50,"Keaton");
     
-    Puzzle_t p = blkCreatePuzzle(*block, NULL_HASH);
+    makeNewBlock(list,&chainOne); //makes a new block and adds it to the chain
+    assert(bcLen(chainOne)==1);
     
-    block->proof_of_work = puzzleMine(p);
+    TransactionList listTwo = tlistCreate();
+    tlistAppend(&listTwo,"Cooper",4220,"Cohen");
+    tlistAppend(&listTwo,"Carter",21020,"Keaton");
+    tlistAppend(&listTwo,"Jo",505,"Bob");
+    
+    makeNewBlock(listTwo, &chainOne);
+    assert(bcLen(chainOne)==2);
+    
+    TransactionList listThree = tlistCreate();
+    tlistAppend(&listThree,"John",4220,"Joe");
+    tlistAppend(&listThree,"Bill",21020,"Other Bill");
+    tlistAppend(&listThree,"Joe",505,"Henry");
 
-    
-    assert(bcLen(chainOne)==0);
-
-
-   // tlistPrint(block->transactions);
-   // tlistPrint(chainOne.head->transactions);
-    
-    bcAppend(&chainOne, block);
-    
+    makeNewBlock(listThree, &chainOne);
+   
     bcPrint(chainOne);
-  /*  Block_t* t = chainOne.head->next;
-    tlistPrint(t->transactions);
-    tlistPrint(t->prev->transactions);
+   
+    Block_t* tailTest = bcTail(chainOne);
+    if(tailTest->id == 4){
+        printf("Tail is at correct ID\n");
+    }
     
-    tlistPrint(t->next->transactions); // should seg fault
-*/
-
-    printf("%d",bcLen(chainOne));
+    if(bcIsValid(chainOne)){ //checks is the blockchain is valid 
+        printf("BLOCKCHAIN IS VALID\n");
+    }else{
+        printf("BLOCKCHAIN IS NOT VALID\n");
+    }
     
-    
-
-    
-  
-  
-    
+    bcDelete(&chainOne); //deletes the blockchain
+   
 }
+

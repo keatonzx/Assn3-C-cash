@@ -44,7 +44,16 @@ BlockChain bcNew()
  * Destructor - remove all data and free all memory associated with the chain 
  * POST: bcLen(chain) == 0
  */
-void bcDelete( BlockChain *chain ); 
+void bcDelete( BlockChain *chain )
+{
+    Block_t* p = chain->head;
+    
+    while(p != NULL){
+        p = p->next;
+        free(chain->head);
+        chain->head = p;
+    }
+}
 
 /*
  * Print a text representation of this chain on STDOUT
@@ -67,21 +76,29 @@ void bcPrint( const BlockChain chain )
 int bcLen( const BlockChain chain )
 {
     int i = 0; 
-    Block_t* p = chain.head;
+    Block_t* p = chain.head->next;
     
     while (p != NULL){
         i++;
         p = p->next;
     }
-    return i-1;
+    return i;
 }
 
 /*
- *  Return true iff blkIsValid(block) for every block in the chain
+ *  Return true iff bcIsValid(block) for every block in the chain
  */
 bool bcIsValid(const BlockChain chain)
 {
+    Block_t* p = chain.head->next;
     
+    while(p != NULL){
+        if(blkIsValid(*p) == false){
+            return false;
+        }
+        p = p->next;
+    }
+    return true;
 }
 
 
