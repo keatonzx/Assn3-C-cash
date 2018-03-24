@@ -36,7 +36,8 @@ BlockChain bcNew()
     TransactionList firstList = tlistCreate();
     Block_t* firstBlock = blkCreate(firstList, DEFAULT_DIFFICULTY, NULL_NONCE);
     BlockChain b = {firstBlock,firstBlock};
-    
+    blkComputeHash(firstBlock);
+   
     return b;
 }
 
@@ -46,12 +47,12 @@ BlockChain bcNew()
  */
 void bcDelete( BlockChain *chain )
 {
-    Block_t* p = chain->head;
+    Block_t* p = chain->head->next;
     
     while(p != NULL){
         p = p->next;
-        free(chain->head);
-        chain->head = p;
+        free(chain->head->next);
+        chain->head->next = p;
     }
 }
 
