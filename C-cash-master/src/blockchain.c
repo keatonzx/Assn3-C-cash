@@ -51,6 +51,12 @@ void bcDelete( BlockChain *chain );
  */
 void bcPrint( const BlockChain chain )
 {
+    Block_t* p = chain.head;
+    
+    while (p != NULL){
+        tlistPrint(p->transactions);
+        p = p->next;
+    }
    //tlistPrint(chain);
     
 }

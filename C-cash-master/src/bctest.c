@@ -37,15 +37,17 @@ void main()
 
 
    // tlistPrint(block->transactions);
-    tlistPrint(chainOne.head->transactions);
+   // tlistPrint(chainOne.head->transactions);
     
-    printf("%d",bcLen(chainOne));
     bcAppend(&chainOne, block);
-    Block_t* t = chainOne.head->next;
+    
+    bcPrint(chainOne);
+  /*  Block_t* t = chainOne.head->next;
     tlistPrint(t->transactions);
     tlistPrint(t->prev->transactions);
-    tlistPrint(t->next->transactions);
-
+    
+    tlistPrint(t->next->transactions); // should seg fault
+*/
 
     printf("%d",bcLen(chainOne));
     
