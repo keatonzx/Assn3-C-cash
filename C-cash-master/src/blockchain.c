@@ -121,4 +121,6 @@ void bcAppend( BlockChain* chain, Block_t* new_block )
     chain->tail->next = new_block;
     new_block->prev = chain->tail;
     chain->tail = new_block;
+    
+    assert(bcTail(*chain) == new_block);
 }
