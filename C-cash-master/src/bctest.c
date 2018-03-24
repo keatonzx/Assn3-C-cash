@@ -50,7 +50,8 @@ void main()
     tlistAppend(&listThree,"Joe",505,"Henry");
 
     makeNewBlock(listThree, &chainOne);
-   
+    assert(bcLen(chainOne)==3);
+
     bcPrint(chainOne);
    
     Block_t* tailTest = bcTail(chainOne);
